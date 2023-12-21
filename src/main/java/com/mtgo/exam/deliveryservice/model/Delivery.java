@@ -31,5 +31,6 @@ public class Delivery {
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryItem> deliveryItems;
     private String comment;
+    @Embedded
     private CustomerInfo customerInfo;
 }

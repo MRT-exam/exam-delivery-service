@@ -2,6 +2,10 @@ package com.mtgo.exam.deliveryservice.controller;
 
 import com.mtgo.exam.deliveryservice.dto.DeliveryDto;
 import com.mtgo.exam.deliveryservice.enums.DeliveryStatus;
+import com.mtgo.exam.deliveryservice.message.DeliveryClaimedMessage;
+import com.mtgo.exam.deliveryservice.message.DeliveryCompletedMessage;
+import com.mtgo.exam.deliveryservice.producer.DeliveryClaimedMessageProducer;
+import com.mtgo.exam.deliveryservice.producer.DeliveryCompletedMessageProducer;
 import com.mtgo.exam.deliveryservice.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,19 +21,32 @@ import org.springframework.web.bind.annotation.RestController;
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
+    private final DeliveryClaimedMessageProducer deliveryClaimedMessageProducer;
+    private final DeliveryCompletedMessageProducer deliveryCompletedMessageProducer;
 
     @PostMapping("/claim/{orderId}")
-    public DeliveryDto claimOrderForDelivery(@PathVariable int deliveryId) {
+    public DeliveryDto claimOrderForDelivery(@PathVariable int orderId) {
         // TODO - Call gRPC in Order Service to receive all Orders with status: ACCEPTED
+        // Get all Accepted Orders
         // TODO - Verify that the provided pathVariable (orderId) is present in the list
-        // TODO - Persist new Delivery Entity and send message to Order Service to update status to CLAIMED
 
+        // TODO - Persist new Delivery Entity and send message to Order Service to update status to CLAIMED
+        DeliveryClaimedMessage deliveryClaimedMessage = DeliveryClaimedMessage.builder()
+                        .id(1)
+                        .restaurantId("restaurant1")
+                        .build();
+        deliveryClaimedMessageProducer.sendDeliveryClaimedMessage(deliveryClaimedMessage);
         return new DeliveryDto();
     }
 
     @PostMapping("/complete/{orderId}")
     public DeliveryDto completeDelivery(@PathVariable int deliveryId) {
         deliveryService.updateDeliveryStatus(deliveryId, DeliveryStatus.COMPLETED);
+        DeliveryCompletedMessage deliveryCompletedMessage = DeliveryCompletedMessage.builder()
+                        .id(2)
+                        .restaurantId("restaurant2")
+                        .build();
+        deliveryCompletedMessageProducer.sendDeliveryCompletedMessage(deliveryCompletedMessage);
         return new DeliveryDto();
     }
 
