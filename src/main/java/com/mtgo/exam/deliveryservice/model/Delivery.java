@@ -28,6 +28,10 @@ public class Delivery {
     @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
     private LocalDateTime deliveryDateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
+    private LocalDateTime deliveryCompletedDateTime;
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryItem> deliveryItems;
     private String comment;

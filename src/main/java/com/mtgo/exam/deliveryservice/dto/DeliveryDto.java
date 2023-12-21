@@ -26,6 +26,10 @@ public class DeliveryDto {
     @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
     private LocalDateTime deliveryDateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "yyyy-MM-dd-HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-HH:mm")
+    private LocalDateTime deliveryCompletedDateTime;
     private List<DeliveryItem> deliveryItems;
     private String comment;
     private CustomerInfo customerInfo;

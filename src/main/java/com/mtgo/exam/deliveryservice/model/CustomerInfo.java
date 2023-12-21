@@ -1,6 +1,5 @@
 package com.mtgo.exam.deliveryservice.model;
 
-import jakarta.persistence.Embeddable;
 import lombok.*;
 
 @Setter
