@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: delivery_service
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+      MYSQL_ROOT_PASSWORD: root1234
+    networks:
+      - exam-mtgo
+
+  delivery-service-app:
+    container_name: delivery-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin1234
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+    networks:
+      - exam-mtgo
+
+networks:
+  exam-mtgo:
