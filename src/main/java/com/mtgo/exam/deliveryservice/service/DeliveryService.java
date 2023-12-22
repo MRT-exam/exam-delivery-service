@@ -27,7 +27,7 @@ public class DeliveryService implements IDeliveryService{
     }
     @Override
     public List<DeliveryDto> getDeliveriesByStatus(DeliveryStatus deliveryStatus) {
-        List<Delivery> claimableDeliveries = deliveryRepository.findByDeliveryStatus(deliveryStatus);
+        List<Delivery> claimableDeliveries = deliveryRepository.findByStatus(deliveryStatus);
         // TODO: Map to DTOs
         return null;
     }

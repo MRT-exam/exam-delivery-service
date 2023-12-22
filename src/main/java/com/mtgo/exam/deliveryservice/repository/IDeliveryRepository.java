@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface IDeliveryRepository extends JpaRepository<Delivery, Integer> {
-    List<Delivery> findByDeliveryStatus(DeliveryStatus deliveryStatus);
+    List<Delivery> findByStatus(DeliveryStatus deliveryStatus);
 }
