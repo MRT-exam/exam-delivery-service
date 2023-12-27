@@ -1,18 +1,24 @@
 package com.mtgo.exam.deliveryservice.controller;
 
+import com.google.protobuf.Descriptors.*;
 import com.mtgo.exam.deliveryservice.dto.DeliveryDto;
 import com.mtgo.exam.deliveryservice.enums.DeliveryStatus;
+import com.mtgo.exam.deliveryservice.grpc.client.DeliveryGrpcClientImpl;
 import com.mtgo.exam.deliveryservice.message.DeliveryClaimedMessage;
 import com.mtgo.exam.deliveryservice.message.DeliveryCompletedMessage;
 import com.mtgo.exam.deliveryservice.producer.DeliveryClaimedMessageProducer;
 import com.mtgo.exam.deliveryservice.producer.DeliveryCompletedMessageProducer;
 import com.mtgo.exam.deliveryservice.service.DeliveryService;
+import com.mtgo.exam.grpcinterface.Order;
+import com.mtgo.exam.grpcinterface.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +29,7 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
     private final DeliveryClaimedMessageProducer deliveryClaimedMessageProducer;
     private final DeliveryCompletedMessageProducer deliveryCompletedMessageProducer;
+    private final DeliveryGrpcClientImpl deliveryGrpcClient;
 
     @PostMapping("")
     public DeliveryDto getClaimableOrders(@PathVariable DeliveryStatus status) {
@@ -33,6 +40,9 @@ public class DeliveryController {
     }
     @PostMapping("/claim/{orderId}")
     public DeliveryDto claimOrderForDelivery(@PathVariable int orderId) {
+        Map<FieldDescriptor, Object> orderFields = deliveryGrpcClient.getOrderById(orderId);
+        String comment = (String) orderFields.get(OrderResponse.getDescriptor().findFieldByName("coment"));
+        System.out.println(comment);
         // TODO - Call gRPC in Order Service to receive all Orders with status: ACCEPTED
         // Get all Accepted Orders
         // TODO - Verify that the provided pathVariable (orderId) is present in the list
