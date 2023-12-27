@@ -24,13 +24,22 @@ public class DeliveryController {
     private final DeliveryClaimedMessageProducer deliveryClaimedMessageProducer;
     private final DeliveryCompletedMessageProducer deliveryCompletedMessageProducer;
 
+    @PostMapping("")
+    public DeliveryDto getClaimableOrders(@PathVariable DeliveryStatus status) {
+        // TODO - Call gRPC in Order Service to receive all Orders with status: ACCEPTED
+
+
+        return new DeliveryDto();
+    }
     @PostMapping("/claim/{orderId}")
     public DeliveryDto claimOrderForDelivery(@PathVariable int orderId) {
         // TODO - Call gRPC in Order Service to receive all Orders with status: ACCEPTED
         // Get all Accepted Orders
         // TODO - Verify that the provided pathVariable (orderId) is present in the list
 
-        // TODO - Persist new Delivery Entity and send message to Order Service to update status to CLAIMED
+        // TODO - Persist new Delivery Entity and update Order Status to CLAIMED in Order Service
+
+        // Send event message to notification service
         DeliveryClaimedMessage deliveryClaimedMessage = DeliveryClaimedMessage.builder()
                         .id(1)
                         .restaurantId("restaurant1")
@@ -42,6 +51,8 @@ public class DeliveryController {
     @PostMapping("/complete/{orderId}")
     public DeliveryDto completeDelivery(@PathVariable int deliveryId) {
         deliveryService.updateDeliveryStatus(deliveryId, DeliveryStatus.COMPLETED);
+
+        // Send event message to notification service
         DeliveryCompletedMessage deliveryCompletedMessage = DeliveryCompletedMessage.builder()
                         .id(2)
                         .restaurantId("restaurant2")
