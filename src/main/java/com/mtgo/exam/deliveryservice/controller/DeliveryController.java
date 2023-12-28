@@ -55,7 +55,7 @@ public class DeliveryController {
         return new DeliveryDto();
     }
 
-    @PostMapping("/complete/{orderId}")
+    @PostMapping("/complete/{deliveryId}")
     public DeliveryDto completeDelivery(@PathVariable int deliveryId) {
         deliveryService.updateDeliveryStatus(deliveryId, DeliveryStatus.COMPLETED);
 
