@@ -1,6 +1,5 @@
 package com.mtgo.exam.deliveryservice.controller;
 
-import com.google.protobuf.Descriptors.*;
 import com.mtgo.exam.deliveryservice.dto.DeliveryDto;
 import com.mtgo.exam.deliveryservice.enums.DeliveryStatus;
 import com.mtgo.exam.deliveryservice.message.DeliveryClaimedMessage;
@@ -8,13 +7,9 @@ import com.mtgo.exam.deliveryservice.message.DeliveryCompletedMessage;
 import com.mtgo.exam.deliveryservice.producer.DeliveryClaimedMessageProducer;
 import com.mtgo.exam.deliveryservice.producer.DeliveryCompletedMessageProducer;
 import com.mtgo.exam.deliveryservice.service.DeliveryService;
-import com.mtgo.exam.grpcinterface.Order;
-import com.mtgo.exam.grpcinterface.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j

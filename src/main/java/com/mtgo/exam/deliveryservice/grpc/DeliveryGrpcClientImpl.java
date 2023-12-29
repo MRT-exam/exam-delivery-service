@@ -1,12 +1,5 @@
 package com.mtgo.exam.deliveryservice.grpc;
 
-import com.google.protobuf.Descriptors.*;
-import com.mtgo.exam.grpcinterface.OrderRequest;
-import com.mtgo.exam.grpcinterface.OrderServiceGrpc.*;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import java.util.Map;
 
 public class DeliveryGrpcClientImpl {
 
