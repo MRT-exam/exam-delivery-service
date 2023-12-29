@@ -12,10 +12,7 @@ import com.mtgo.exam.grpcinterface.Order;
 import com.mtgo.exam.grpcinterface.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -30,21 +27,22 @@ public class DeliveryController {
     private final DeliveryCompletedMessageProducer deliveryCompletedMessageProducer;
     // private final DeliveryGrpcClientImpl deliveryGrpcClient;
 
-    @PostMapping("")
-    public DeliveryDto getClaimableOrders(@PathVariable DeliveryStatus status) {
-        // TODO - Call gRPC in Order Service to receive all Orders with status: ACCEPTED
+    @GetMapping("")
+    public DeliveryDto getClaimableOrders() {
+        // TODO: GraphQL
 
 
         return new DeliveryDto();
     }
     @PostMapping("/claim/{orderId}")
     public DeliveryDto claimOrderForDelivery(@PathVariable int orderId) {
+        // GRPC attempt (Not Working)
+        // TODO - Call gRPC in Order Service to receive the order if status: ACCEPTED
         // Map<FieldDescriptor, Object> orderFields = deliveryGrpcClient.getOrderById(orderId);
-        // TODO - Call gRPC in Order Service to receive all Orders with status: ACCEPTED
-        // Get all Accepted Orders
-        // TODO - Verify that the provided pathVariable (orderId) is present in the list
-
         // TODO - Persist new Delivery Entity and update Order Status to CLAIMED in Order Service
+
+        // TODO: GraphQL - Lets gooo
+
 
         // Send event message to notification service
         DeliveryClaimedMessage deliveryClaimedMessage = DeliveryClaimedMessage.builder()
@@ -58,6 +56,9 @@ public class DeliveryController {
     @PostMapping("/complete/{deliveryId}")
     public DeliveryDto completeDelivery(@PathVariable int deliveryId) {
         deliveryService.updateDeliveryStatus(deliveryId, DeliveryStatus.COMPLETED);
+
+        // TODO: Make order-service update order status so that status is consistent
+
 
         // Send event message to notification service
         DeliveryCompletedMessage deliveryCompletedMessage = DeliveryCompletedMessage.builder()
