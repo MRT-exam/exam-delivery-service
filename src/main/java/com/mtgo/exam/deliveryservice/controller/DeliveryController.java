@@ -59,7 +59,6 @@ public class DeliveryController {
 
         // TODO: Make order-service update order status so that status is consistent
 
-
         // Send event message to notification service
         DeliveryCompletedMessage deliveryCompletedMessage = DeliveryCompletedMessage.builder()
                         .id(2)
