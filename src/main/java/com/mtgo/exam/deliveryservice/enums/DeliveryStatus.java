@@ -3,7 +3,8 @@ package com.mtgo.exam.deliveryservice.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum DeliveryStatus {
-
+    @JsonProperty("ACCEPTED")
+    ACCEPTED("ACCEPTED"),
     @JsonProperty("ACTIVE")
     ACTIVE("ACTIVE"),
     @JsonProperty("COMPLETED")

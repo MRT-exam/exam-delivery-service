@@ -1,0 +1,23 @@
+query($orderId: ID!) {
+    getOrderById(orderId: $orderId) {
+        id
+        orderNumber
+        status
+        orderDateTime
+        orderLineDtoList {
+            itemId
+            itemName
+            price
+            quantity
+        }
+        totalPrice
+        comment
+        customerInfoDto {
+              firstName
+              lastName
+              phone
+              address
+        }
+        restaurantId
+    }
+}
