@@ -45,8 +45,9 @@ public class DeliveryService implements IDeliveryService{
                 .retrieve()
                 .bodyToMono(OrderDto.class)
                 .block();
-
-        if (!orderDto.getStatus().equals(DeliveryStatus.ACCEPTED)) {
+        log.info(orderDto.getComment());
+        log.info(orderDto.getStatus());
+        if (!orderDto.getStatus().equals("ACCEPTED")) {
             System.out.println("Order with the id has not been accepted");
         }
 
@@ -67,7 +68,7 @@ public class DeliveryService implements IDeliveryService{
                 .customerInfo(customerInfo)
                 .build();
 
-        System.out.println(orderDto.getComment());
+
 
         deliveryRepository.save(delivery);
 
