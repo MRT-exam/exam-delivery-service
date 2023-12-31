@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
@@ -35,9 +37,12 @@ public class DeliveryService implements IDeliveryService{
     public Delivery claimOrderForDelivery(int orderId) throws IOException {
         // Call GraphQL getOrderById
         GraphqlRequestBody requestBody = new GraphqlRequestBody();
-        final String queryTemplate = GraphqlSchemaReaderUtil.getSchemaFromFileName("getOrderById");
-        String query = String.format(queryTemplate, orderId);
+        final String query = GraphqlSchemaReaderUtil.getSchemaFromFileName("getOrderById");
+
         requestBody.setQuery(query);
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("orderId", orderId);
+        requestBody.setVariables(variables);
 
         log.info(requestBody.toString());
         OrderDto orderDto = webClientBuilder.build().post()

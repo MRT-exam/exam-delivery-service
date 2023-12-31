@@ -1,21 +1,23 @@
-getOrderById(orderId: %d) {
-    id
-    orderNumber
-    status
-    orderDateTime
-    orderLineDtoList {
-        itemId
-        itemName
-        price
-        quantity
+query GetOrderById($orderId: Int!) {
+    getOrderById(orderId: $orderId) {
+        id
+        orderNumber
+        status
+        orderDateTime
+        orderLineDtoList {
+            itemId
+            itemName
+            price
+            quantity
+        }
+        totalPrice
+        comment
+        customerInfoDto {
+            firstName
+            lastName
+            phone
+            address
+        }
+        restaurantId
     }
-    totalPrice
-    comment
-    customerInfoDto {
-        firstName
-        lastName
-        phone
-        address
-    }
-    restaurantId
 }

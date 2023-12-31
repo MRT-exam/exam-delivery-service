@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,8 +14,12 @@ import lombok.Setter;
 public class GraphqlRequestBody {
 
     private String query;
+    private Map<String, Object> variables;
 
     public String toString() {
-        return getQuery();
+        return "GraphqlRequestBody{" +
+                "query='" + query + '\'' +
+                ", variables=" + variables +
+                '}';
     }
 }
