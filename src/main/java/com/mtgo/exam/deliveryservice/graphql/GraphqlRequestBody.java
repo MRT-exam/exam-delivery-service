@@ -12,5 +12,8 @@ import lombok.Setter;
 public class GraphqlRequestBody {
 
     private String query;
-    private int id;
+
+    public String toString() {
+        return getQuery();
+    }
 }

@@ -35,19 +35,19 @@ public class DeliveryService implements IDeliveryService{
     public Delivery claimOrderForDelivery(int orderId) throws IOException {
         // Call GraphQL getOrderById
         GraphqlRequestBody requestBody = new GraphqlRequestBody();
-        final String query = GraphqlSchemaReaderUtil.getSchemaFromFileName("getOrderById");
-
+        final String queryTemplate = GraphqlSchemaReaderUtil.getSchemaFromFileName("getOrderById");
+        String query = String.format(queryTemplate, orderId);
         requestBody.setQuery(query);
-        requestBody.setId(orderId);
+
+        log.info(requestBody.toString());
         OrderDto orderDto = webClientBuilder.build().post()
                 .uri("http://order-service/graphql-order-service")
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(OrderDto.class)
                 .block();
-        log.info(orderDto.getComment());
-        log.info(orderDto.getStatus());
-        if (!orderDto.getStatus().equals("ACCEPTED")) {
+
+        if (!orderDto.getStatus().equals(DeliveryStatus.ACCEPTED.getCode())) {
             System.out.println("Order with the id has not been accepted");
         }
 
